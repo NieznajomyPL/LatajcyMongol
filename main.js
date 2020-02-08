@@ -55,7 +55,7 @@ class Piper {
     this.y = _y;
     this.color = _color;
 		this.point = true;
-    this.wielkosc_szczeliny = 100;
+    this.wielkosc_szczeliny = 200;
     this.szerokosc_rury = 70;
     //this.odleglosc_od_drugiej_rury = 300;
     this.margines = 20;
@@ -88,7 +88,7 @@ class Mongol {
   }
   draw() {
     this.ctx.fillStyle = this.color;
-    this.ctx.fillRect(this.x, this.y, 20, 20)
+    this.ctx.fillRect(this.x, this.y, this.size, this.size)
   }
   update(deltaTime) {
     //console.log(this.y);
@@ -151,15 +151,15 @@ function update(timestamp) {
     //kolizja
     
     
-    	if(pipers[i].x <= mongol.x && pipers[i].x < mongol.x - pipers[i].szerokosc_rury)
+    	if(pipers[i].x <= mongol.x + mongol.size && mongol.x + mongol.size < pipers[i].x + pipers[i].szerokosc_rury)
       {
-      console.log("Kolizja X");
-      if(mongol.y < pipers[i].dlugosc_gornej_pipera || mongol.y > game.height - pipers[i].dlugosc_gornej_pipera - pipersp[i].wielkosc_szczeliny)
-    	{
-    		console.log("Kolizja Y")
-      	game.loss();
-        break;
-      }
+        console.log("Kolizja X");
+        if(mongol.y < pipers[i].dlugosc_gornej_pipera || mongol.y + mongol.size > pipers[i].dlugosc_gornej_pipera + pipers[i].wielkosc_szczeliny)
+        {
+          console.log("Kolizja Y")
+          game.loss();
+          break;
+        }
     }
     pipers[i].x -= 1;
     pipers[i].draw();
