@@ -2,7 +2,86 @@ body
 {
 	background-color: black;
 }
+
+img
+{
+	text-align: right;
+	height: 25%;
+	width: 25%;
+}
+
+#podpis
+{
+	color: white;
+	background-color: black;
+	text-align: right;
+}
+
 #myCanvas
 {
 	background-color: white;
 }
+h1
+{
+	color: white;
+}
+
+h3
+{
+	color: yellow;
+	background-color: red;
+}
+
+h4
+{
+	color: white;
+}
+  a
+  {
+	  text-decoration: none;
+  }
+  
+  #ZAGRAJTERAZ{
+		  animation: rainbow 2.5s linear;
+		  animation-iteration-count: infinite;
+		  text-align: center;
+  }
+  
+  @keyframes rainbow{
+		  100%,0%{
+			  color: rgb(255,0,0);
+		  }
+		  8%{
+			  color: rgb(255,127,0);
+		  }
+		  16%{
+			  color: rgb(255,255,0);
+		  }
+		  25%{
+			  color: rgb(127,255,0);
+		  }
+		  33%{
+			  color: rgb(0,255,0);
+		  }
+		  41%{
+			  color: rgb(0,255,127);
+		  }
+		  50%{
+			  color: rgb(0,255,255);
+		  }
+		  58%{
+			  color: rgb(0,127,255);
+		  }
+		  66%{
+			  color: rgb(0,0,255);
+		  }
+		  75%{
+			  color: rgb(127,0,255);
+		  }
+		  83%{
+			  color: rgb(255,0,255);
+		  }
+		  91%{
+			  color: rgb(255,0,127);
+		  }
+  }

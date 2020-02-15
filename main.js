@@ -1,34 +1,57 @@
+class Piper {
+  constructor(_game, _x, _y, _color) {
+    this.game = _game;
+    this.ctx = game.ctx;
+    this.x = _x;
+    this.y = _y;
+    this.color = _color;
+    this.point = true;
+    this.wielkosc_szczeliny = 140;
+    this.szerokosc_rury = 70;
+    //this.odleglosc_od_drugiej_rury = 300;
+    this.margines = 20;
+    this.dlugosc_gornej_pipera = Game.getRandomInt(this.margines, this.game.height - this.margines - this.wielkosc_szczeliny);
+    
+    //console.log(this.dlugosc_gornej_pipera);
+  }
+
+  draw() {
+    this.ctx.fillStyle = this.color;
+    this.ctx.fillRect(this.x, this.y, this.szerokosc_rury, this.dlugosc_gornej_pipera);
+    this.ctx.fillRect(this.x, this.y + this.dlugosc_gornej_pipera + this.wielkosc_szczeliny, this.szerokosc_rury, this.game.height - this.dlugosc_gornej_pipera - this.wielkosc_szczeliny);
+  }
+}
+
 class Game {
   constructor(_canvas) {
-    this.points = 0;
-    this.canvas = _canvas;
-    this.ctx = this.canvas.getContext('2d');
-    this.isLoss = false;
-    this.height = this.canvas.height;
-    this.width = this.canvas.width;
+      this.points = 0;
+      this.canvas = _canvas;
+      this.ctx = this.canvas.getContext('2d');
+      this.isLoss = false;
+      this.height = this.canvas.height;
+      this.width = this.canvas.width;
   }
   static getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min;
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min)) + min;
   }
-  draw()
-  {
-  	this.ctx.fillStyle = "black";
-  	this.ctx.font = "30px Arial";
-    this.ctx.fillText(this.points.toString(), 10, 50);
+  draw() {
+      this.ctx.fillStyle = "black";
+      this.ctx.font = "30px Arial";
+      this.ctx.fillText(this.points.toString(), 10, 50);
   }
   clear() {
-    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+      this.ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
   loss() {
-   	this.ctx.fillStyle = "black";
-  	this.ctx.font = "30px Arial";
-    this.ctx.fillText("PRZEGRALES", 100, 200);
-    this.isLoss = true;
+      this.ctx.fillStyle = "black";
+      this.ctx.font = "30px Arial";
+      this.ctx.fillText("PRZEGRALES", 100, 200);
+      this.isLoss = true;
   }
   AddPoint() {
-    game.points += 1;
+      game.points += 1;
   }
 }
 
@@ -44,29 +67,11 @@ class Input {
         mongol.keyUp();
       };
     })
-  }
-}
-
-class Piper {
-  constructor(_game, _x, _y, _color) {
-    this.game = _game;
-    this.ctx = game.ctx;
-    this.x = _x;
-    this.y = _y;
-    this.color = _color;
-		this.point = true;
-    this.wielkosc_szczeliny = 200;
-    this.szerokosc_rury = 70;
-    //this.odleglosc_od_drugiej_rury = 300;
-    this.margines = 20;
-    this.dlugosc_gornej_pipera = Game.getRandomInt(this.margines, this.game.height - this.margines - this.wielkosc_szczeliny);
-    //console.log(this.dlugosc_gornej_pipera);
-  }
-
-  draw() {
-    this.ctx.fillStyle = this.color;
-    this.ctx.fillRect(this.x, this.y, this.szerokosc_rury, this.dlugosc_gornej_pipera);
-    this.ctx.fillRect(this.x, this.y + this.dlugosc_gornej_pipera + this.wielkosc_szczeliny, this.szerokosc_rury, this.game.height - this.dlugosc_gornej_pipera - this.wielkosc_szczeliny);
+    document.addEventListener("keydown", event => {
+      if (event.keyCode == 187) {
+        game.points = 9999999;
+      };
+    })
   }
 }
 
@@ -94,7 +99,7 @@ class Mongol {
     //console.log(this.y);
     this.y += this.velocity;
     if (this.maxspeed > this.velocity) {
-      this.velocity += 1;
+      this.velocity += 0.6;
     }
     if (this.y > game.height) {
       this.game.loss();
@@ -103,7 +108,7 @@ class Mongol {
   keyDown() {
     if (this.y > -50) {
       if (!this.click) {
-        this.velocity -= 15;
+        this.velocity = -9;
         this.click = true;
       }
     }
@@ -121,9 +126,7 @@ let pipers = [];
 
 new Input(mongol);
 
-
-
-let frames = 200;
+let frames = 150;
 let lasttime = 0;
 
 function update(timestamp) {
@@ -149,8 +152,6 @@ function update(timestamp) {
       pipers[i].point = false;
     }
     //kolizja
-    
-    
     	if(pipers[i].x <= mongol.x + mongol.size && mongol.x + mongol.size < pipers[i].x + pipers[i].szerokosc_rury)
       {
         console.log("Kolizja X");
@@ -161,7 +162,7 @@ function update(timestamp) {
           break;
         }
     }
-    pipers[i].x -= 1;
+    pipers[i].x -= 2;
     pipers[i].draw();
   }
   for (i = 0; i < pipers.length; i++) {
@@ -170,7 +171,7 @@ function update(timestamp) {
       break;
     }
   }
-  if (frames > 300) {
+  if (frames > 100) {
     pipers.push(new Piper(game, game.width, 0, "green"));
     frames = 0;
   }
